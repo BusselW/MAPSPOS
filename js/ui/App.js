@@ -1,6 +1,7 @@
-import { links, mapsBasisUrl } from '../config/links.js';
+import { secties, hoorverzoekHoorfaseOpties, mapsApiBeroepenFindUrl } from '../config/links.js';
 import { bouwLink } from '../services/linkService.js';
 import { getCurrentUserEmail } from '../services/spService.js';
+import { fetchBeroepenCount } from '../services/mapsApiService.js';
 
 const h = React.createElement;
 
@@ -19,27 +20,69 @@ function App() {
     const [pagina, setPagina] = React.useState(0);
     const [aantal, setAantal] = React.useState(25);
     const [alleenOpen, setAlleenOpen] = React.useState(true);
+    const [geselecteerdeHoorfase, setGeselecteerdeHoorfase] = React.useState('');
+    const [hoorfaseCounts, setHoorfaseCounts] = React.useState({});
+
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
 
     React.useEffect(() => {
-        async function haalEmailOp() {
+        async function haalEmailOpEnCounts() {
             const userEmail = await getCurrentUserEmail();
             setEmail(userEmail);
-        }
-        haalEmailOp();
-    }, []);
 
-    const openLink = (vasteParams) => {
+            if (userEmail) {
+                const counts = {};
+                // Fetch count for "Alles" (no hoorfase filter)
+                counts['Alles'] = await fetchBeroepenCount(userEmail);
+
+                for (const optie of hoorverzoekHoorfaseOpties) {
+                    if (optie.waarde) { // Skip "Alles" option here
+                        counts[optie.tekst] = await fetchBeroepenCount(userEmail, optie.waarde);
+                    }
+                }
+                setHoorfaseCounts(counts);
+            }
+        }
+        haalEmailOpEnCounts();
+    }, [email]); // Re-run when email is set
+
+    const openLink = (linkConfig) => {
         const dynamischeParams = {
             page: pagina,
             size: aantal,
             eigenaar: email
         };
 
-        if (alleenOpen) {
+        if (alleenOpen && linkConfig.basisUrl === "https://ketenportaal.cjib.eminjenv.nl/cjib/ketenportaal/maps/beroepen") {
             dynamischeParams.beroepActief = 'True';
         }
 
-        const volledigeLink = bouwLink(mapsBasisUrl, { ...vasteParams, ...dynamischeParams });
+        if (geselecteerdeHoorfase) {
+            dynamischeParams['hoorverzoek.hoorfase'] = geselecteerdeHoorfase;
+        }
+
+        // Handle dynamic dates
+        const vandaag = new Date();
+        if (linkConfig.dynamischeDatumTotVandaag) {
+            dynamischeParams['hoorverzoek.datumtijdHoorzittingTotEnMet'] = `${formatDate(vandaag)}T09:00`;
+        }
+        if (linkConfig.dynamischeDatumVandaag) {
+            dynamischeParams['hoorverzoek.datumtijdHoorzittingVanaf'] = `${formatDate(vandaag)}T09:00`;
+            dynamischeParams['hoorverzoek.datumtijdHoorzittingTotEnMet'] = `${formatDate(vandaag)}T09:00`;
+        }
+        if (linkConfig.dynamischeDatumVandaagTotTweeJaar) {
+            const tweeJaarLater = new Date();
+            tweeJaarLater.setFullYear(vandaag.getFullYear() + 2);
+            dynamischeParams['hoorverzoek.datumtijdHoorzittingVanaf'] = `${formatDate(vandaag)}T09:00`;
+            dynamischeParams['hoorverzoek.datumtijdHoorzittingTotEnMet'] = `${formatDate(tweeJaarLater)}T09:00`;
+        }
+
+        const volledigeLink = bouwLink(linkConfig.basisUrl, { ...linkConfig.vasteParameters, ...dynamischeParams });
         window.open(volledigeLink, '_blank');
     };
 
@@ -68,32 +111,69 @@ function App() {
                     h('option', { value: 100 }, '100'),
                     h('option', { value: 200 }, '200')
                 )
+            ),
+            h('div', { className: 'instelling' },
+                h('label', { htmlFor: 'hoorfase-select' }, 'Hoorfase:'),
+                h('select', { 
+                    id: 'hoorfase-select', 
+                    value: geselecteerdeHoorfase, 
+                    onChange: (e) => setGeselecteerdeHoorfase(e.target.value)
+                },
+                    hoorverzoekHoorfaseOpties.map(optie => 
+                        h('option', { key: optie.waarde, value: optie.waarde }, optie.tekst)
+                    )
+                )
             )
         ),
-        h('div', { className: 'knoppen-container' },
-            links.map((link, index) =>
-                h('div', { 
-                    key: index, 
-                    className: 'knop',
-                    onClick: () => openLink(link.vasteParameters)
-                }, 
-                    h('div', { className: 'knop-header' },
-                        h(FolderIcon),
-                        h('h3', null, link.titel)
-                    ),
-                    h('p', null, link.beschrijving),
-                    h('div', { 
-                        className: 'toggle-container',
-                        onClick: (e) => e.stopPropagation() // Prevent click from bubbling to the parent
-                    },
-                        h('span', { className: 'toggle-label' }, alleenOpen ? 'Open' : 'Alle'),
-                        h('label', { className: 'switch' },
-                            h('input', { 
-                                type: 'checkbox', 
-                                checked: alleenOpen, 
-                                onChange: () => setAlleenOpen(!alleenOpen) // State change is handled here
-                            }),
-                            h('span', { className: 'slider' })
+        h('div', { className: 'hoorfase-tabel-container' },
+            h('h2', { className: 'sectie-titel' }, 'Aantal Zittingen per Hoorfase'),
+            h('table', { className: 'hoorfase-tabel' },
+                h('thead', null,
+                    h('tr', null,
+                        h('th', null, 'Hoorfase'),
+                        h('th', null, 'Aantal')
+                    )
+                ),
+                h('tbody', null,
+                    Object.keys(hoorfaseCounts).map(key => 
+                        h('tr', { key: key },
+                            h('td', null, key),
+                            h('td', null, hoorfaseCounts[key] !== -1 ? hoorfaseCounts[key] : 'Fout')
+                        )
+                    )
+                )
+            )
+        ),
+        Object.keys(secties).map(sectieNaam => 
+            h('div', { key: sectieNaam, className: 'sectie' },
+                h('h2', { className: 'sectie-titel' }, sectieNaam),
+                h('div', { className: 'knoppen-container' },
+                    secties[sectieNaam].map((link, index) =>
+                        h('div', { 
+                            key: index, 
+                            className: 'knop',
+                            onClick: () => openLink(link)
+                        }, 
+                            h('div', { className: 'knop-header' },
+                                h(FolderIcon),
+                                h('h3', null, link.titel)
+                            ),
+                            h('p', null, link.beschrijving),
+                            link.basisUrl === "https://ketenportaal.cjib.eminjenv.nl/cjib/ketenportaal/maps/beroepen" &&
+                            h('div', { 
+                                className: 'toggle-container',
+                                onClick: (e) => e.stopPropagation() // Prevent click from bubbling to the parent
+                            },
+                                h('span', { className: 'toggle-label' }, alleenOpen ? 'Open' : 'Alle'),
+                                h('label', { className: 'switch' },
+                                    h('input', { 
+                                        type: 'checkbox', 
+                                        checked: alleenOpen, 
+                                        onChange: () => setAlleenOpen(!alleenOpen) // State change is handled here
+                                    }),
+                                    h('span', { className: 'slider' })
+                                )
+                            )
                         )
                     )
                 )

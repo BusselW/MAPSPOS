@@ -47,12 +47,73 @@ body {
     border: 1px solid #dddfe2;
     border-radius: 6px;
     background-color: #f5f6f7;
+    width: 100%; /* Ensure select takes full width */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+/* Adjustments for the new select input */
+.instelling select {
+    appearance: none; /* Remove default select arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23606770%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.2-6.4H18.4c-5%200-9.3%201.8-13.2%206.4-3.9%204.6-6.1%2010.9-6.1%2017.6s2.2%2013%206.1%2017.6l128%20127.9c3.9%203.9%209.2%206.2%2017.6%206.2s13.7-2.3%2017.6-6.2l128-127.9c3.9-4.6%206.1-10.9%206.1-17.6s-2.2-13-6.1-17.6z%22%2F%3E%3C%2Fsvg%3E'); /* Custom arrow */
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 12px;
+    padding-right: 30px; /* Make space for the arrow */
+}
+
+.hoorfase-tabel-container {
+    margin-top: 30px;
+    margin-bottom: 40px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    padding: 20px;
+}
+
+.hoorfase-tabel {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.hoorfase-tabel th, .hoorfase-tabel td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+}
+
+.hoorfase-tabel th {
+    background-color: #f5f6f7;
+    color: #606770;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.hoorfase-tabel tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.hoorfase-tabel tbody tr:hover {
+    background-color: #f9f9f9;
 }
 
 .knoppen-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
+}
+
+.sectie {
+    margin-bottom: 40px;
+}
+
+.sectie-titel {
+    text-align: center;
+    color: #1c1e21;
+    margin-bottom: 25px;
+    font-size: 24px;
 }
 
 .knop {
