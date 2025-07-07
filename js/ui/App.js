@@ -82,13 +82,16 @@ function App() {
                         h('h3', null, link.titel)
                     ),
                     h('p', null, link.beschrijving),
-                    h('div', { className: 'toggle-container' },
+                    h('div', { 
+                        className: 'toggle-container',
+                        onClick: (e) => e.stopPropagation() // Prevent click from bubbling to the parent
+                    },
                         h('span', { className: 'toggle-label' }, alleenOpen ? 'Open' : 'Alle'),
                         h('label', { className: 'switch' },
                             h('input', { 
                                 type: 'checkbox', 
                                 checked: alleenOpen, 
-                                onChange: () => setAlleenOpen(!alleenOpen) 
+                                onChange: () => setAlleenOpen(!alleenOpen) // State change is handled here
                             }),
                             h('span', { className: 'slider' })
                         )
