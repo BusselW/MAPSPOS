@@ -4,10 +4,21 @@ import { getCurrentUserEmail } from '../services/spService.js';
 
 const h = React.createElement;
 
+// Simple SVG Icon for the button
+const FolderIcon = () => h('svg', { 
+    className: 'knop-icoon', 
+    xmlns: 'http://www.w3.org/2000/svg', 
+    viewBox: '0 0 24 24', 
+    fill: 'currentColor' 
+}, 
+    h('path', { d: 'M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z' })
+);
+
 function App() {
     const [email, setEmail] = React.useState('');
     const [pagina, setPagina] = React.useState(0);
     const [aantal, setAantal] = React.useState(25);
+    const [alleenOpen, setAlleenOpen] = React.useState(true);
 
     React.useEffect(() => {
         async function haalEmailOp() {
@@ -23,6 +34,11 @@ function App() {
             size: aantal,
             eigenaar: email
         };
+
+        if (alleenOpen) {
+            dynamischeParams.beroepActief = 'True';
+        }
+
         const volledigeLink = bouwLink(mapsBasisUrl, { ...vasteParams, ...dynamischeParams });
         window.open(volledigeLink, '_blank');
     };
@@ -58,11 +74,25 @@ function App() {
             links.map((link, index) =>
                 h('div', { 
                     key: index, 
-                    className: 'knop', 
-                    onClick: () => openLink(link.vasteParameters) 
+                    className: 'knop',
+                    onClick: () => openLink(link.vasteParameters)
                 }, 
-                    h('h3', null, link.titel),
-                    h('p', null, link.beschrijving)
+                    h('div', { className: 'knop-header' },
+                        h(FolderIcon),
+                        h('h3', null, link.titel)
+                    ),
+                    h('p', null, link.beschrijving),
+                    h('div', { className: 'toggle-container' },
+                        h('span', { className: 'toggle-label' }, alleenOpen ? 'Open' : 'Alle'),
+                        h('label', { className: 'switch' },
+                            h('input', { 
+                                type: 'checkbox', 
+                                checked: alleenOpen, 
+                                onChange: () => setAlleenOpen(!alleenOpen) 
+                            }),
+                            h('span', { className: 'slider' })
+                        )
+                    )
                 )
             )
         )
@@ -70,4 +100,5 @@ function App() {
 }
 
 export default App;
+
 
