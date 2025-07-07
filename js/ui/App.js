@@ -1,7 +1,6 @@
-import { secties, hoorverzoekHoorfaseOpties, mapsApiBeroepenFindUrl } from '../config/links.js';
+import { secties, hoorverzoekHoorfaseOpties } from '../config/links.js';
 import { bouwLink } from '../services/linkService.js';
 import { getCurrentUserEmail } from '../services/spService.js';
-import { fetchBeroepenCount } from '../services/mapsApiService.js';
 
 const h = React.createElement;
 
@@ -21,7 +20,19 @@ function App() {
     const [aantal, setAantal] = React.useState(25);
     const [alleenOpen, setAlleenOpen] = React.useState(true);
     const [geselecteerdeHoorfase, setGeselecteerdeHoorfase] = React.useState('');
-    const [hoorfaseCounts, setHoorfaseCounts] = React.useState({});
+    
+    // Static placeholder data for hoorfase counts
+    const hoorfaseCounts = {
+        'Alles': 123,
+        'Hoorklaar': 15,
+        'Hoorzitting': 30,
+        'Retour Verzuim Horen': 5,
+        'Uitsturen Stukken': 20,
+        'Vasthouden': 8,
+        'Wachtstapel Beoordeling Na Zitting': 10,
+        'Wachtstapel Beoordeling Voor Zitting': 12,
+        'Wacht op PKV Verzoek': 3
+    };
 
     const formatDate = (date) => {
         const year = date.getFullYear();
@@ -31,25 +42,12 @@ function App() {
     };
 
     React.useEffect(() => {
-        async function haalEmailOpEnCounts() {
+        async function haalEmailOp() {
             const userEmail = await getCurrentUserEmail();
             setEmail(userEmail);
-
-            if (userEmail) {
-                const counts = {};
-                // Fetch count for "Alles" (no hoorfase filter)
-                counts['Alles'] = await fetchBeroepenCount(userEmail);
-
-                for (const optie of hoorverzoekHoorfaseOpties) {
-                    if (optie.waarde) { // Skip "Alles" option here
-                        counts[optie.tekst] = await fetchBeroepenCount(userEmail, optie.waarde);
-                    }
-                }
-                setHoorfaseCounts(counts);
-            }
         }
-        haalEmailOpEnCounts();
-    }, [email]); // Re-run when email is set
+        haalEmailOp();
+    }, []);
 
     const openLink = (linkConfig) => {
         const dynamischeParams = {
@@ -138,7 +136,7 @@ function App() {
                     Object.keys(hoorfaseCounts).map(key => 
                         h('tr', { key: key },
                             h('td', null, key),
-                            h('td', null, hoorfaseCounts[key] !== -1 ? hoorfaseCounts[key] : 'Fout')
+                            h('td', null, hoorfaseCounts[key])
                         )
                     )
                 )
