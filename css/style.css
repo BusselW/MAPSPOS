@@ -1,0 +1,82 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#react-app {
+    width: 100%;
+    max-width: 800px;
+}
+
+.titel {
+    text-align: center;
+    color: #1c1e21;
+    margin-bottom: 20px;
+}
+
+.instellingen-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.instelling {
+    display: flex;
+    flex-direction: column;
+}
+
+.instelling label {
+    margin-bottom: 5px;
+    color: #606770;
+    font-size: 14px;
+}
+
+.instelling input, .instelling select {
+    padding: 8px;
+    border: 1px solid #dddfe2;
+    border-radius: 4px;
+}
+
+.knoppen-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.knop {
+    background-color: #fff;
+    border: 1px solid #dddfe2;
+    border-radius: 6px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.knop:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+.knop h3 {
+    margin: 0 0 10px 0;
+    color: #1c1e21;
+}
+
+.knop p {
+    margin: 0;
+    color: #606770;
+    font-size: 14px;
+}
