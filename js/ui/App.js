@@ -21,19 +21,6 @@ function App() {
     const [alleenOpen, setAlleenOpen] = React.useState(true);
     const [geselecteerdeHoorfase, setGeselecteerdeHoorfase] = React.useState('');
     
-    // Static placeholder data for hoorfase counts
-    const hoorfaseCounts = {
-        'Alles': 123,
-        'Hoorklaar': 15,
-        'Hoorzitting': 30,
-        'Retour Verzuim Horen': 5,
-        'Uitsturen Stukken': 20,
-        'Vasthouden': 8,
-        'Wachtstapel Beoordeling Na Zitting': 10,
-        'Wachtstapel Beoordeling Voor Zitting': 12,
-        'Wacht op PKV Verzoek': 3
-    };
-
     const formatDate = (date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -119,25 +106,6 @@ function App() {
                 },
                     hoorverzoekHoorfaseOpties.map(optie => 
                         h('option', { key: optie.waarde, value: optie.waarde }, optie.tekst)
-                    )
-                )
-            )
-        ),
-        h('div', { className: 'hoorfase-tabel-container' },
-            h('h2', { className: 'sectie-titel' }, 'Aantal Zittingen per Hoorfase'),
-            h('table', { className: 'hoorfase-tabel' },
-                h('thead', null,
-                    h('tr', null,
-                        h('th', null, 'Hoorfase'),
-                        h('th', null, 'Aantal')
-                    )
-                ),
-                h('tbody', null,
-                    Object.keys(hoorfaseCounts).map(key => 
-                        h('tr', { key: key },
-                            h('td', null, key),
-                            h('td', null, hoorfaseCounts[key])
-                        )
                     )
                 )
             )
