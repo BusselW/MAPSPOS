@@ -23,7 +23,9 @@ export const secties = {
             vasteParameters: {
                 "sort": "datumBeslistermijnDeadline,asc",
                 "registratienummer": "asc"
-            }
+            },
+            requiresUserEmail: true,
+            userEmailParameter: "eigenaar"
         },
         {
             titel: "Zaken zonder open wachtstanden",
@@ -32,7 +34,9 @@ export const secties = {
             vasteParameters: {
                 "beroeptype": "OVJ",
                 "geenWachtstand": "true"
-            }
+            },
+            requiresUserEmail: true,
+            userEmailParameter: "eigenaar"
         },
         {
             titel: "Zaken met open notificaties",
@@ -41,7 +45,9 @@ export const secties = {
             vasteParameters: {
                 "beroeptype": "OVJ",
                 "openNotificaties": "true"
-            }
+            },
+            requiresUserEmail: true,
+            userEmailParameter: "eigenaar"
         },
         {
             titel: "Actieve beroepen > 14 dagen buiten beslistermijn",
@@ -52,7 +58,9 @@ export const secties = {
                 "datumUitersteBeslissingVanaf": "1970-01-01",
                 "datumUitersteBeslissingTotEnMet": "2025-07-21",
                 "geenWachtstand": "true"
-            }
+            },
+            requiresUserEmail: true,
+            userEmailParameter: "eigenaar"
         },
         {
             titel: "Toekomstige zittingen",
@@ -64,7 +72,9 @@ export const secties = {
                 "beroepIndicatiesInclusief": "HOREN",
                 "hoorverzoek.datumtijdHoorzittingVanaf": "2025-07-07T20:25",
                 "hoorverzoek.datumtijdHoorzittingTotEnMet": "2030-07-07T20:25"
-            }
+            },
+            requiresUserEmail: true,
+            userEmailParameter: "eigenaar"
         }
     ],
     "Zittingen": [

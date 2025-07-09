@@ -39,9 +39,18 @@ function App() {
     const openLink = (linkConfig) => {
         const dynamischeParams = {
             page: pagina,
-            size: aantal,
-            eigenaar: email
+            size: aantal
         };
+
+        // Add user email for links that require it
+        if (linkConfig.requiresUserEmail) {
+            if (email) {
+                const paramName = linkConfig.userEmailParameter || 'eigenaar';
+                dynamischeParams[paramName] = email;
+            } else {
+                console.warn('User email not yet loaded for link that requires it:', linkConfig.titel);
+            }
+        }
 
         if (alleenOpen && linkConfig.basisUrl === "https://ketenportaal.cjib.eminjenv.nl/cjib/ketenportaal/maps/beroepen") {
             dynamischeParams.beroepActief = 'True';
