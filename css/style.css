@@ -56,7 +56,8 @@ body {
 }
 
 .tab-inhoud {
-    /* Stijl voor de content van een tabblad, indien nodig */
+    /* Placeholder for tab content styling if needed in the future */
+    display: block;
 }
 
 /* --- Werkbakken Sectie --- */
@@ -254,4 +255,72 @@ body {
         font-weight: bold;
         color: #ced0d4;
     }
+}
+
+/* Custom Input Badges */
+.knop-custom {
+    cursor: default !important;
+}
+
+.knop-custom:hover {
+    transform: none !important;
+}
+
+.custom-inputs {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #dddfe2;
+}
+
+.custom-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #dddfe2;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.custom-input:focus {
+    outline: none;
+    border-color: #1877f2;
+    box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
+}
+
+.datetime-group {
+    margin-bottom: 12px;
+}
+
+.datetime-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color: #606770;
+    margin-bottom: 4px;
+}
+
+.datetime-input {
+    margin-bottom: 0;
+}
+
+.custom-go-button {
+    width: 100%;
+    padding: 10px 16px;
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.custom-go-button:hover {
+    background-color: #166fe5;
+}
+
+.custom-go-button:active {
+    background-color: #1464d8;
 }

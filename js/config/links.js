@@ -182,6 +182,38 @@ export const tabbladen = {
                         "pageSize": "25"
                     },
                     isZittingenLink: true // Custom flag for specific logic
+                },
+                {
+                    titel: "Zittingen voor Eigenaar",
+                    beschrijving: "Zoek zittingen voor een specifieke eigenaar door de naam in te vullen.",
+                    basisUrl: "https://ketenportaal.cjib.eminjenv.nl/cjib/ketenportaal/maps/zittingen/raadplegen-hoorzittingen",
+                    vasteParameters: {
+                        "beroeptype": "OVJ",
+                        "beroepActief": "true",
+                        "openWachtstand": "HOREN",
+                        "stateBeslissen": "true",
+                        "page": "0",
+                        "size": "10",
+                        "sort": "hoorverzoek.datumtijdHoorzitting,asc",
+                        "pageSize": "25"
+                    },
+                    isCustomEigenaarLink: true // Custom flag voor eigenaar input
+                },
+                {
+                    titel: "Zittingen voor Datumbereik",
+                    beschrijving: "Zoek zittingen binnen een specifiek datumbereik door start- en einddatum/tijd in te vullen.",
+                    basisUrl: "https://ketenportaal.cjib.eminjenv.nl/cjib/ketenportaal/maps/zittingen/raadplegen-hoorzittingen",
+                    vasteParameters: {
+                        "beroeptype": "OVJ",
+                        "beroepActief": "true",
+                        "openWachtstand": "HOREN",
+                        "stateBeslissen": "true",
+                        "page": "0",
+                        "size": "10",
+                        "sort": "hoorverzoek.datumtijdHoorzitting,asc",
+                        "pageSize": "25"
+                    },
+                    isCustomDateRangeLink: true // Custom flag voor datum input
                 }
             ]
         }

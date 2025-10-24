@@ -1,5 +1,5 @@
 import { tabbladen, gemeenteCodes } from '../config/links.js';
-import { bouwLink } from '../services/linkService.js';
+import { bouwDynamischeLink } from '../services/linkService.js';
 import { getCurrentUserEmail } from '../services/spService.js';
 
 const h = React.createElement;
@@ -28,16 +28,22 @@ function App() {
     const [email, setEmail] = React.useState('');
     const [selecties, setSelecties] = React.useState({});
     const [actiefTab, setActiefTab] = React.useState(Object.keys(tabbladen)[0]); // Start met het eerste tabblad
+    const [customInputs, setCustomInputs] = React.useState({});
 
     const handleSelectChange = (key, value) => {
         setSelecties(prev => ({ ...prev, [key]: value }));
     };
 
-    const formatDate = (date) => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
+    const handleCustomInputChange = (key, value) => {
+        setCustomInputs(prev => ({ ...prev, [key]: value }));
+    };
+
+    const getCurrentDateTime = (timeOffset = '09:00') => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}T${timeOffset}`;
     };
 
     React.useEffect(() => {
@@ -46,31 +52,20 @@ function App() {
             setEmail(userEmail);
         }
         haalEmailOp();
+
+        // Initialize default datetime values
+        const startDefault = getCurrentDateTime('09:00');
+        const endDefault = getCurrentDateTime('17:00');
+        setCustomInputs(prev => ({
+            ...prev,
+            [`start-Hoorzittingen Vandaag-2`]: startDefault,
+            [`end-Hoorzittingen Vandaag-2`]: endDefault
+        }));
     }, []);
 
     const openLink = (linkConfig) => {
-        let volledigeLink;
-        let dynamischeParams = {};
-
-        // Eigenaar toevoegen voor persoonlijke tabbladen, tenzij anders aangegeven
-        if ((actiefTab === 'Eigen werkvoorraad' || actiefTab === 'Zittingen') && email && !linkConfig.isNietPersoonlijk) {
-            dynamischeParams.eigenaar = email;
-        }
-
-        const vandaag = new Date();
-        if (linkConfig.dynamischeDatumTotVandaag) {
-            dynamischeParams['hoorverzoek.datumtijdHoorzittingVanaf'] = '1970-01-01T00:00';
-            dynamischeParams['hoorverzoek.datumtijdHoorzittingTotEnMet'] = `${formatDate(vandaag)}T23:59`;
-        }
-        
-        // Specifieke logica voor de nieuwe zittingen-knop
-        if (linkConfig.isZittingenLink) {
-            const vandaagStr = formatDate(vandaag);
-            dynamischeParams['hoorverzoek.datumtijdHoorzittingVanaf'] = `${vandaagStr}T09:00`;
-            dynamischeParams['hoorverzoek.datumtijdHoorzittingTotEnMet'] = `${vandaagStr}T17:00`;
-        }
-
-        volledigeLink = bouwLink(linkConfig.basisUrl, { ...linkConfig.vasteParameters, ...dynamischeParams });
+        const context = { email, actiefTab };
+        const volledigeLink = bouwDynamischeLink(linkConfig, context);
         window.open(volledigeLink, '_blank');
     };
    
@@ -81,7 +76,43 @@ function App() {
             return;
         }
         const gemeenteCode = gemeenteCodes[geselecteerdeGemeente];
-        const volledigeLink = `${linkConfig.basisUrl}&codePleeggemeente=${gemeenteCode}`;
+        const context = { email, actiefTab };
+        const volledigeLink = bouwDynamischeLink(linkConfig, context, gemeenteCode);
+        window.open(volledigeLink, '_blank');
+    };
+
+    const openCustomEigenaarLink = (linkConfig, inputKey) => {
+        const eigenaarInput = customInputs[inputKey];
+        if (!eigenaarInput || eigenaarInput.trim() === '') {
+            alert("Vul eerst de eigenaar naam in.");
+            return;
+        }
+        const context = { email, actiefTab };
+        const customParams = { eigenaar: eigenaarInput.trim() };
+        const volledigeLink = bouwDynamischeLink(linkConfig, context, null, customParams);
+        window.open(volledigeLink, '_blank');
+    };
+
+    const openCustomDateRangeLink = (linkConfig, startKey, endKey) => {
+        const startDateTime = customInputs[startKey];
+        const endDateTime = customInputs[endKey];
+        
+        if (!startDateTime || !endDateTime) {
+            alert("Vul zowel de start- als einddatum/tijd in.");
+            return;
+        }
+        
+        if (new Date(startDateTime) >= new Date(endDateTime)) {
+            alert("De startdatum/tijd moet voor de einddatum/tijd liggen.");
+            return;
+        }
+
+        const context = { email, actiefTab };
+        const customParams = { 
+            startDateTime: startDateTime.replace('T', 'T').replace(':', ':'), // Ensure proper format
+            endDateTime: endDateTime.replace('T', 'T').replace(':', ':')
+        };
+        const volledigeLink = bouwDynamischeLink(linkConfig, context, null, customParams);
         window.open(volledigeLink, '_blank');
     };
 
@@ -120,6 +151,11 @@ function App() {
             // Render de "Persoonlijke werkbakken" als een uitklapbaar paneel
             const isTimeline = sectieConfig.isTimeline || false;
             let stepCounter = 1;
+            // Debug: Log when rendering Zittingen sections
+            if (actiefTab === 'Zittingen') {
+                console.log('Rendering Zittingen section:', sectieNaam, 'Links:', sectieConfig.links);
+            }
+            
             return h('details', { key: sectieNaam, className: 'sectie-details', open: true },
                 h('summary', { className: 'sectie-titel' }, sectieNaam),
                 h('div', { className: `knoppen-container ${isTimeline ? 'timeline' : ''}` },
@@ -132,9 +168,78 @@ function App() {
                                 ),
                                 h('p', null, link.beschrijving)
                             );
+                        } else if (link.isCustomEigenaarLink) {
+                            const inputKey = `eigenaar-${sectieNaam}-${index}`;
+                            const titel = isTimeline ? `${stepCounter}. ${link.titel}` : link.titel;
+                            if(isTimeline) stepCounter++;
+                            return h('div', { key: index, className: 'knop knop-custom' },
+                                h('div', { className: 'knop-header' },
+                                    h(FolderIcon),
+                                    h('h3', null, titel)
+                                ),
+                                h('p', null, link.beschrijving),
+                                h('div', { className: 'custom-inputs' },
+                                    h('input', {
+                                        type: 'text',
+                                        placeholder: 'Eigenaar naam...',
+                                        value: customInputs[inputKey] || '',
+                                        onChange: (e) => handleCustomInputChange(inputKey, e.target.value),
+                                        className: 'custom-input'
+                                    }),
+                                    h('button', {
+                                        className: 'custom-go-button',
+                                        onClick: () => openCustomEigenaarLink(link, inputKey)
+                                    }, 'Ga naar')
+                                )
+                            );
+                        } else if (link.isCustomDateRangeLink) {
+                            const startKey = `start-${sectieNaam}-${index}`;
+                            const endKey = `end-${sectieNaam}-${index}`;
+                            const titel = isTimeline ? `${stepCounter}. ${link.titel}` : link.titel;
+                            if(isTimeline) stepCounter++;
+                            return h('div', { key: index, className: 'knop knop-custom' },
+                                h('div', { className: 'knop-header' },
+                                    h(FolderIcon),
+                                    h('h3', null, titel)
+                                ),
+                                h('p', null, link.beschrijving),
+                                h('div', { className: 'custom-inputs' },
+                                    h('div', { className: 'datetime-group' },
+                                        h('label', null, 'Start datum/tijd:'),
+                                        h('input', {
+                                            type: 'datetime-local',
+                                            value: customInputs[startKey] || getCurrentDateTime('09:00'),
+                                            onChange: (e) => handleCustomInputChange(startKey, e.target.value),
+                                            className: 'custom-input datetime-input'
+                                        })
+                                    ),
+                                    h('div', { className: 'datetime-group' },
+                                        h('label', null, 'Eind datum/tijd:'),
+                                        h('input', {
+                                            type: 'datetime-local',
+                                            value: customInputs[endKey] || getCurrentDateTime('17:00'),
+                                            onChange: (e) => handleCustomInputChange(endKey, e.target.value),
+                                            className: 'custom-input datetime-input'
+                                        })
+                                    ),
+                                    h('button', {
+                                        className: 'custom-go-button',
+                                        onClick: () => openCustomDateRangeLink(link, startKey, endKey)
+                                    }, 'Ga naar')
+                                )
+                            );
                         } else {
                             const titel = isTimeline ? `${stepCounter}. ${link.titel}` : link.titel;
-                            const button = h('div', { key: index, className: 'knop', onClick: () => openLink(link) },
+                            
+                            // Debug: Add red border to Zittingen badges
+                            const debugStyle = actiefTab === 'Zittingen' ? { border: '2px solid red' } : {};
+                            
+                            const button = h('div', { 
+                                key: index, 
+                                className: 'knop', 
+                                onClick: () => openLink(link),
+                                style: debugStyle
+                            },
                                 h('div', { className: 'knop-header' },
                                     h(FolderIcon),
                                     h('h3', null, titel)
