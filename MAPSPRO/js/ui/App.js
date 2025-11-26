@@ -160,7 +160,7 @@ function App() {
                 h('summary', { className: 'sectie-titel' }, sectieNaam),
                 h('div', { className: `knoppen-container ${isTimeline ? 'timeline' : ''}` },
                     sectieConfig.links.map((link, index) => {
-                        if (link.type === 'note' && isTimeline) {
+                        if (link.type === 'note') {
                             return h('div', { key: index, className: 'knop knop-notitie' },
                                 h('div', { className: 'knop-header' },
                                     h(InfoIcon),
