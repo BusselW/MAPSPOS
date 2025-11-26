@@ -93,6 +93,152 @@ export const tabbladen = {
                     beschrijving: "Zaken die in de wacht zijn gezet. Controleer minimaal elke twee weken.",
                     basisUrl: mapsBasisUrl,
                     vasteParameters: { "page": "0", "size": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "beroepActief": "true", "beroeptype": "OVJ", "hoorverzoek.hoorfase": "VASTHOUDEN" }
+                },
+                // === SECTIE 1: Hoorklaar ===
+                {
+                    type: 'note',
+                    titel: "1. Hoorklaar",
+                    beschrijving: "Zaken in de fase Hoorklaar"
+                },
+                {
+                    titel: "Hoorklaar",
+                    beschrijving: "Zaken in de fase Hoorklaar.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "1990-01-01T04:00:00.000Z", "datumAangemaaktTotEnMet": "2025-07-13T02:00:00.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesInclusief": "HOREN", "beroepIndicatiesExclusief": "HUUR", "size": "25", "hoorverzoek.hoorfase": "HOORKLAAR" }
+                },
+                // === SECTIE 2: Hoorzaken op of voor 13-07-2025 ===
+                {
+                    type: 'note',
+                    titel: "2. Hoorzaken op of voor 13-07-2025",
+                    beschrijving: "Niet direct kunnen besluiten = vernietigen met L 436"
+                },
+                {
+                    titel: "Vasthouden (op of voor 13-07-2025)",
+                    beschrijving: "Zaken in de fase Vasthouden.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "1990-01-01T04:00:00.000Z", "datumAangemaaktTotEnMet": "2025-07-13T02:00:00.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesInclusief": "HOREN", "beroepIndicatiesExclusief": "HUUR", "size": "25", "hoorverzoek.hoorfase": "VASTHOUDEN" }
+                },
+                {
+                    titel: "Retour verzuim horen (Notificatie + Appjection)",
+                    beschrijving: "Retour verzuim horen met notificatie en Appjection.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesInclusief": "HOREN", "size": "25", "hoorverzoek.hoorfase": "RETOUR_VERZUIM_HOREN", "openNotificaties": "true", "datumAangemaaktVanaf": "1990-01-01", "datumAangemaaktTotEnMet": "2025-07-22", "persoonId": "3dad1e41-8117-3310-aeec-4c2028531fc3", "relatieType": "GEMACHTIGDE" }
+                },
+                {
+                    titel: "Retour verzuim horen (een wachtstand) - op of voor 13-07-2025",
+                    beschrijving: "Retour verzuim horen met een wachtstand.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "1990-01-01T04:00:00.000Z", "datumAangemaaktTotEnMet": "2025-07-13T02:00:00.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesInclusief": "HOREN", "openNotificaties": "true", "size": "25", "hoorverzoek.hoorfase": "RETOUR_VERZUIM_HOREN", "feitcodegroepen": "Verkeersborden" }
+                },
+                {
+                    titel: "Indicatie Horen (geen wachtstand + notificatie)",
+                    beschrijving: "Zaken met indicatie Horen zonder wachtstand maar met notificatie.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "1990-01-01T04:00:00.000Z", "datumAangemaaktTotEnMet": "2025-07-13T02:00:00.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesInclusief": "HOREN", "beroepIndicatiesExclusief": "HUUR", "size": "25", "hoorverzoek.hoorfase": "RETOUR_VERZUIM_HOREN", "enigeWachtstand": "true", "feitcodegroepen": "Verkeersborden" }
+                },
+                {
+                    titel: "Wachtstapel beoordeling na zitting (op of voor 13-07-2025)",
+                    beschrijving: "Wachtstapel beoordeling na zitting.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "1990-01-01T04:00:00.000Z", "datumAangemaaktTotEnMet": "2025-07-13T02:00:00.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesInclusief": "HOREN", "openNotificaties": "true", "size": "25", "geenWachtstand": "false", "feitcodegroepen": "Verkeersborden" }
+                },
+                // === SECTIE 3: Reguliere zaken op of voor 13-07-2025 ===
+                {
+                    type: 'note',
+                    titel: "3. Reguliere zaken op of voor 13-07-2025",
+                    beschrijving: "Alles vernietigen met L436"
+                },
+                {
+                    titel: "Notificaties (regulier, op of voor 13-07-2025) - 1",
+                    beschrijving: "Reguliere zaken met notificaties (wachtstapel beoordeling na zitting).",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "1990-01-01T04:00:00.000Z", "datumAangemaaktTotEnMet": "2025-07-13T02:00:00.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesInclusief": "HOREN", "beroepIndicatiesExclusief": "HUUR", "size": "25", "hoorverzoek.hoorfase": "WACHTSTAPEL_BEOORDELING_NA_ZITTING" }
+                },
+                {
+                    titel: "Notificaties (regulier, op of voor 13-07-2025) - 2",
+                    beschrijving: "Reguliere zaken met notificaties.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "1990-01-01T02:00:00.000Z", "datumAangemaaktTotEnMet": "2025-07-13T23:59:59.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesExclusief": "HOREN", "size": "25", "openNotificaties": "true", "feitcodegroepen": "Verkeersborden" }
+                },
+                {
+                    titel: "Zaken zonder wachtstand (regulier, op of voor 13-07-2025)",
+                    beschrijving: "Reguliere zaken zonder wachtstand.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "1990-01-01T02:00:00.000Z", "datumAangemaaktTotEnMet": "2025-07-13T23:59:59.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesExclusief": "HOREN", "size": "25", "geenWachtstand": "true", "feitcodegroepen": "Verkeersborden" }
+                },
+                {
+                    titel: "Geen eigenaar (regulier, op of voor 13-07-2025)",
+                    beschrijving: "Reguliere zaken zonder eigenaar.",
+                    isNietPersoonlijk: true,
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "1990-01-01T02:00:00.000Z", "datumAangemaaktTotEnMet": "2025-07-13T23:59:59.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesExclusief": "HOREN", "size": "25", "feitcodegroepen": "Verkeersborden", "nietToegeeigend": "true" }
+                },
+                // === SECTIE 4: Hoorzaken na 13-07-2025 ===
+                {
+                    type: 'note',
+                    titel: "4. Hoorzaken na 13-07-2025",
+                    beschrijving: "Geen bijzonderheden"
+                },
+                {
+                    titel: "Retour verzuim horen (na 13-07-2025)",
+                    beschrijving: "Retour verzuim horen zaken na 13-07-2025.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "2025-07-14T02:00:00.000Z", "datumAangemaaktTotEnMet": "2026-01-01T01:00:00.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesInclusief": "HOREN", "beroepIndicatiesExclusief": "HUUR", "size": "25", "hoorverzoek.hoorfase": "RETOUR_VERZUIM_HOREN", "openNotificaties": "true", "feitcodegroepen": "Verkeersborden" }
+                },
+                {
+                    titel: "Retour verzuim horen (een wachtstand, na 13-07-2025)",
+                    beschrijving: "Retour verzuim horen met een wachtstand, na 13-07-2025.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "2025-07-14T04:00:00.000Z", "datumAangemaaktTotEnMet": "2026-01-01T02:00:00.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesInclusief": "HOREN", "beroepIndicatiesExclusief": "HUUR", "size": "25", "hoorverzoek.hoorfase": "RETOUR_VERZUIM_HOREN", "enigeWachtstand": "true", "feitcodegroepen": "Verkeersborden" }
+                },
+                {
+                    titel: "Vasthouden (na 13-07-2025)",
+                    beschrijving: "Vasthouden zaken na 13-07-2025.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "2025-07-14T02:00:00.000Z", "datumAangemaaktTotEnMet": "2026-10-01T02:00:00.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesInclusief": "HOREN", "beroepIndicatiesExclusief": "HUUR", "size": "25", "hoorverzoek.hoorfase": "VASTHOUDEN", "feitcodegroepen": "Verkeersborden" }
+                },
+                {
+                    titel: "Hoorzitting (na 13-07-2025)",
+                    beschrijving: "Hoorzitting zaken na 13-07-2025.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "2025-07-14T04:00:00.000Z", "datumAangemaaktTotEnMet": "2026-01-01T02:00:00.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesInclusief": "HOREN", "beroepIndicatiesExclusief": "HUUR", "size": "25", "hoorverzoek.hoorfase": "HOORZITTING" }
+                },
+                {
+                    titel: "Wachtstapel beoordeling na zitting (na 13-07-2025)",
+                    beschrijving: "Wachtstapel beoordeling na zitting, na 13-07-2025.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "2025-07-14T04:00:00.000Z", "datumAangemaaktTotEnMet": "2026-01-01T02:00:00.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesInclusief": "HOREN", "beroepIndicatiesExclusief": "HUUR", "size": "25", "hoorverzoek.hoorfase": "WACHTSTAPEL_BEOORDELING_NA_ZITTING" }
+                },
+                {
+                    titel: "Overige notificaties (hoorzaken, na 13-07-2025)",
+                    beschrijving: "Overige notificaties voor hoorzaken na 13-07-2025.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "2025-07-14T04:00:00.000Z", "datumAangemaaktTotEnMet": "2026-01-01T02:00:00.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesExclusief": "HUUR", "size": "25", "beroepIndicatiesInclusief": "HOREN", "openNotificaties": "true", "feitcodegroepen": "Verkeersborden" }
+                },
+                // === SECTIE 5: Reguliere zaken na 13-07-2025 ===
+                {
+                    type: 'note',
+                    titel: "5. Reguliere zaken na 13-07-2025",
+                    beschrijving: "Geen bijzonderheden"
+                },
+                {
+                    titel: "Notificaties (regulier, na 13-07-2025)",
+                    beschrijving: "Reguliere zaken met notificaties na 13-07-2025.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "2025-07-14T02:00:00.000Z", "datumAangemaaktTotEnMet": "2026-01-01T01:00:00.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesExclusief": "HOREN", "size": "25", "openNotificaties": "true", "feitcodegroepen": "Verkeersborden" }
+                },
+                {
+                    titel: "Zaken zonder wachtstand (regulier, na 13-07-2025)",
+                    beschrijving: "Reguliere zaken zonder wachtstand na 13-07-2025.",
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "2025-07-14T04:00:00.000Z", "datumAangemaaktTotEnMet": "2026-01-01T02:00:00.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesExclusief": "HOREN", "size": "25", "geenWachtstand": "true", "feitcodegroepen": "Verkeersborden" }
+                },
+                {
+                    titel: "Geen eigenaar (regulier, na 13-07-2025)",
+                    beschrijving: "Reguliere zaken zonder eigenaar na 13-07-2025.",
+                    isNietPersoonlijk: true,
+                    basisUrl: mapsBasisUrl,
+                    vasteParameters: { "page": "0", "pageSize": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "datumAangemaaktVanaf": "2025-07-14T02:00:00.000Z", "datumAangemaaktTotEnMet": "2026-01-01T01:00:00.000Z", "beroepActief": "true", "beroeptype": "OVJ", "beroepIndicatiesExclusief": "HOREN", "nietToegeeigend": "true", "size": "25", "feitcodegroepen": "Verkeersborden" }
                 }
             ]
         },
