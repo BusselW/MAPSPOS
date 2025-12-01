@@ -94,6 +94,12 @@ export const tabbladen = {
                     basisUrl: mapsBasisUrl,
                     vasteParameters: { "page": "0", "size": "25", "sort": ["datumBeslistermijnDeadline,asc", "registratienummer,asc"], "beroepActief": "true", "beroeptype": "OVJ", "hoorverzoek.hoorfase": "VASTHOUDEN" }
                 },
+                // === SCHEIDING TUSSEN OUDE EN NIEUWE KNOPPEN ===
+                {
+                    type: 'note',
+                    titel: "--- Aanvullende Werkbakken ---",
+                    beschrijving: "Hieronder volgen aanvullende werkbakken voor specifieke datumcategorieën"
+                },
                 // === SECTIE 1: Hoorklaar ===
                 {
                     type: 'note',
