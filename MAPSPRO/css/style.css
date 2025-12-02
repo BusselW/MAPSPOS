@@ -396,21 +396,43 @@ body {
 
 .custom-go-button {
     width: 100%;
-    padding: 10px 16px;
-    background-color: #1877f2;
+    padding: 12px 18px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: bold;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
 }
 
 .custom-go-button:hover {
-    background-color: #166fe5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
 .custom-go-button:active {
-    background-color: #1464d8;
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .titel {
+        font-size: 28px;
+    }
+    
+    .tab-container {
+        flex-direction: column;
+    }
+    
+    .werkbak-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .knoppen-container {
+        grid-template-columns: 1fr;
+    }
 }
