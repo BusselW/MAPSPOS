@@ -47,10 +47,62 @@ export function bouwDynamischeLink(linkConfig, context, gemeenteCode = null, cus
         return `${year}-${month}-${day}`;
     };
 
+    const formatDateTime = (date) => {
+        return date.toISOString();
+    };
+
+    const getNextFriday = () => {
+        const date = new Date(vandaag);
+        const daysUntilNextWeek = 7 - date.getDay(); // Days until next Sunday
+        const daysUntilFriday = daysUntilNextWeek + 5; // Then add days to Friday
+        date.setDate(date.getDate() + daysUntilFriday);
+        date.setHours(23, 59, 59, 999);
+        return date;
+    };
+
     // Dynamische datum tot vandaag
     if (linkConfig.dynamischeDatumTotVandaag) {
         dynamischeParams['hoorverzoek.datumtijdHoorzittingVanaf'] = '1970-01-01T00:00';
         dynamischeParams['hoorverzoek.datumtijdHoorzittingTotEnMet'] = `${formatDate(vandaag)}T23:59`;
+    }
+
+    // Dynamische datums - configurable ranges
+    if (linkConfig.dynamischeDatumBereik) {
+        const config = linkConfig.dynamischeDatumBereik;
+        
+        // Start date
+        if (config.vanaf === 'historisch') {
+            dynamischeParams['datumAangemaaktVanaf'] = '1990-01-01T01:00:00.000Z';
+        } else if (config.vanaf) {
+            const startDate = new Date(vandaag);
+            startDate.setMonth(startDate.getMonth() + (config.vanaf.maanden || 0));
+            startDate.setDate(startDate.getDate() + (config.vanaf.dagen || 0));
+            dynamischeParams['datumAangemaaktVanaf'] = formatDateTime(startDate);
+        }
+        
+        // End date
+        if (config.totEnMet === 'nextFriday') {
+            dynamischeParams['datumAangemaaktTotEnMet'] = formatDateTime(getNextFriday());
+        } else if (config.totEnMet) {
+            const endDate = new Date(vandaag);
+            endDate.setMonth(endDate.getMonth() + (config.totEnMet.maanden || 0));
+            endDate.setDate(endDate.getDate() + (config.totEnMet.dagen || 0));
+            dynamischeParams['datumAangemaaktTotEnMet'] = formatDateTime(endDate);
+        }
+    }
+
+    // Dynamische hoorzitting datums
+    if (linkConfig.dynamischeHoorzittingBereik) {
+        const config = linkConfig.dynamischeHoorzittingBereik;
+        
+        if (config.vanaf === 'historisch') {
+            dynamischeParams['hoorverzoek.datumtijdHoorzittingVanaf'] = '1990-01-01T00:00';
+        }
+        
+        if (config.totEnMet === 'nextFriday') {
+            const friday = getNextFriday();
+            dynamischeParams['hoorverzoek.datumtijdHoorzittingTotEnMet'] = `${formatDate(friday)}T23:59`;
+        }
     }
     
     // Specifieke logica voor zittingen
