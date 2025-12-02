@@ -1,11 +1,37 @@
+/* MAPSPRO/css/style.css */
+:root {
+    --primary-color: #0f172a;
+    --primary-hover: #1e293b;
+    --accent-color: #3b82f6; /* Brighter blue for focus/accents */
+    --background-color: #f1f5f9;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    --success-bg: #f0fdf4;
+    --success-text: #15803d;
+    --warning-bg: #fefce8;
+    --warning-text: #854d0e;
+    --warning-border: #fde047;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --radius-md: 0.5rem;   /* 8px */
+    --radius-lg: 0.75rem;  /* 12px */
+    --radius-xl: 1rem;     /* 16px */
+}
+
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", Helvetica, Arial, sans-serif;
-    background: #f5f7fa;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-main);
     margin: 0;
-    padding: 30px 20px;
+    padding: 40px 20px;
     display: flex;
     justify-content: center;
     min-height: 100vh;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
 }
 
 #react-app {
@@ -13,215 +39,244 @@ body {
     max-width: 1200px;
 }
 
+/* --- Typography & Headings --- */
 .titel {
     text-align: center;
-    color: #1e293b;
-    margin-bottom: 30px;
-    font-size: 36px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
+    color: var(--primary-color);
+    margin-bottom: 40px;
+    font-size: 2.25rem; /* 36px */
+    font-weight: 800;
+    letter-spacing: -0.025em;
 }
 
 .laad-bericht {
     text-align: center;
-    color: #475569;
-    font-size: 18px;
-    padding: 40px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    color: var(--text-muted);
+    font-size: 1.125rem;
+    padding: 60px;
+    background-color: var(--card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
 }
 
-/* --- Tabbladen Navigatie --- */
+/* --- Tabs Navigation --- */
 .tab-container {
     display: flex;
     gap: 8px;
-    margin-bottom: 30px;
-    background-color: #ffffff;
-    padding: 8px;
-    border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 32px;
+    background-color: var(--card-bg);
+    padding: 6px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
 }
 
 .tab-knop {
-    padding: 12px 24px;
+    padding: 12px 20px;
     cursor: pointer;
     border: none;
     background-color: transparent;
-    font-size: 15px;
+    font-size: 0.95rem;
     font-weight: 600;
-    color: #64748b;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+    color: var(--text-muted);
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
     flex: 1;
     text-align: center;
+    outline: none;
 }
 
 .tab-knop:hover {
-    color: #1e293b;
-    background-color: #f1f5f9;
+    color: var(--text-main);
+    background-color: var(--background-color);
+}
+
+.tab-knop:focus-visible {
+    box-shadow: 0 0 0 2px var(--accent-color);
 }
 
 .tab-knop.actief {
     color: #ffffff;
-    background-color: #0f172a;
-    box-shadow: 0 2px 8px rgba(15,23,42,0.2);
+    background-color: var(--primary-color);
+    box-shadow: var(--shadow-sm);
 }
 
 .tab-inhoud {
     display: block;
+    animation: fadeIn 0.3s ease-in-out;
 }
 
-/* --- Werkbakken Sectie --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Werkbakken Section --- */
 .werkbak-sectie {
-    background-color: #ffffff;
-    border-radius: 12px;
-    padding: 28px;
-    margin-bottom: 24px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    border: 1px solid #e2e8f0;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.werkbak-sectie:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background-color: var(--card-bg);
+    border-radius: var(--radius-xl);
+    padding: 32px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
 }
 
 .sectie-titel {
-    color: #0f172a;
+    color: var(--primary-color);
     margin-top: 0;
-    margin-bottom: 8px;
-    cursor: pointer;
-    font-size: 24px;
+    margin-bottom: 12px;
+    font-size: 1.5rem; /* 24px */
     font-weight: 700;
 }
 
 .sectie-subtitel {
-    color: #64748b;
+    color: var(--text-muted);
     margin-top: 0;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
     font-weight: 500;
-    font-size: 16px;
-    border-bottom: 2px solid #e2e8f0;
-    padding-bottom: 12px;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 16px;
 }
 
 .werkbak-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
 }
 
 .werkbak-groep {
-    border: 2px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 20px;
-    background: linear-gradient(to bottom, #ffffff, #f8fafc);
-    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    background-color: #fafafa; /* Slight contrast inside card */
+    transition: all 0.2s ease;
 }
 
 .werkbak-groep:hover {
+    background-color: var(--card-bg);
     border-color: #cbd5e1;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
 }
 
 .groep-titel {
     margin-top: 0;
-    margin-bottom: 18px;
-    font-size: 17px;
+    margin-bottom: 20px;
+    font-size: 1.125rem;
     font-weight: 700;
-    color: #1e293b;
-    border-bottom: 2px solid #0f172a;
-    padding-bottom: 8px;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+}
+
+.groep-titel::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 1.2em;
+    background-color: var(--accent-color);
+    margin-right: 12px;
+    border-radius: 2px;
 }
 
 .werkbak-item {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     margin-bottom: 12px;
 }
 
+/* Select Inputs */
 .werkbak-select {
     flex-grow: 1;
     padding: 10px 14px;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    background-color: #fff;
-    font-size: 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background-color: var(--card-bg);
+    font-size: 0.9rem;
+    color: var(--text-main);
     transition: all 0.2s ease;
     font-weight: 500;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+}
+
+.werkbak-select:hover {
+    border-color: #cbd5e1;
 }
 
 .werkbak-select:focus {
     outline: none;
-    border-color: #0f172a;
-    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.1);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+/* Buttons inside Werkbak */
 .werkbak-knop {
     display: block;
     width: 100%;
     padding: 10px 16px;
     margin-bottom: 12px;
     border: none;
-    background: #0f172a;
+    background-color: var(--primary-color);
     color: #ffffff;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     cursor: pointer;
     text-align: center;
-    font-size: 14px;
+    font-size: 0.9rem;
     font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
 }
 
 .werkbak-item .werkbak-knop {
     width: auto;
-    background: #0f172a;
-    border: none;
+    min-width: 60px;
 }
 
 .werkbak-knop:hover {
-    transform: translateY(-2px);
-    background: #1e293b;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
 }
 
-.werkbak-item .werkbak-knop:hover {
-    background: #1e293b;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);
+.werkbak-knop:active {
+    transform: translateY(0);
 }
 
-/* --- Persoonlijke Werkbakken (uitklapbaar) --- */
+/* --- Personal/Details Sections (Collapsible) --- */
 .sectie-details {
-    background-color: #ffffff;
-    border-radius: 12px;
-    padding: 10px 28px;
+    background-color: var(--card-bg);
+    border-radius: var(--radius-xl);
+    padding: 16px 32px;
     margin-bottom: 24px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    border: 1px solid #e2e8f0;
-    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: box-shadow 0.3s ease;
 }
 
 .sectie-details:hover {
-    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    box-shadow: var(--shadow-md);
 }
 
 .sectie-details[open] {
-    padding-bottom: 28px;
+    padding-bottom: 32px;
 }
 
 .sectie-details summary {
-    padding: 16px 0;
+    padding: 12px 0;
     cursor: pointer;
-    font-size: 22px;
+    font-size: 1.25rem; /* 20px */
     font-weight: 700;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--primary-color);
     list-style: none;
+    display: flex;
+    align-items: center;
+    user-select: none;
 }
 
 .sectie-details summary::-webkit-details-marker {
@@ -229,42 +284,47 @@ body {
 }
 
 .sectie-details summary::before {
-    content: '▶';
-    display: inline-block;
+    content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%230f172a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
     margin-right: 12px;
-    transition: transform 0.3s ease;
-    color: #0f172a;
+    transition: transform 0.2s ease;
 }
 
 .sectie-details[open] summary::before {
     transform: rotate(90deg);
 }
 
-/* --- Knoppen in Persoonlijke Werkbakken --- */
+/* --- Action Buttons (Big Cards) --- */
 .knoppen-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
-    padding-top: 24px;
+    padding-top: 20px;
 }
 
 .knop {
-    background: linear-gradient(to bottom, #ffffff, #f8fafc);
-    border: 2px solid #e2e8f0;
-    border-radius: 12px;
+    background-color: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
     padding: 24px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-sm);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     position: relative;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .knop:hover {
-    border-color: #0f172a;
-    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.15);
+    border-color: var(--accent-color);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-4px);
 }
 
@@ -275,51 +335,54 @@ body {
 }
 
 .knop-icoon {
-    width: 28px;
-    height: 28px;
-    margin-right: 14px;
-    background: #0f172a;
-    color: #0f172a;
-    filter: drop-shadow(0 2px 4px rgba(15, 23, 42, 0.2));
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    color: var(--primary-color);
+    padding: 10px;
+    background-color: #f1f5f9;
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
 }
 
 .knop h3 {
     margin: 0;
-    color: #1e293b;
-    font-size: 17px;
+    color: var(--text-main);
+    font-size: 1rem;
     font-weight: 700;
     line-height: 1.4;
 }
 
 .knop p {
-    margin: 0 0 16px 0;
-    color: #64748b;
-    font-size: 14px;
-    flex-grow: 1;
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
     line-height: 1.6;
+    flex-grow: 1;
 }
 
-/* --- Tijdlijn & Notitie Stijlen --- */
+/* --- Timeline & Notes --- */
 .knoppen-container.timeline {
-    gap: 24px 40px;
+    position: relative;
+    gap: 32px;
 }
 
+/* Note style (Yellow) */
 .knop-notitie {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    border: 2px dashed #d97706;
+    background-color: var(--warning-bg);
+    border: 1px dashed var(--warning-border);
     cursor: default;
 }
 
 .knop-notitie:hover {
-    box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+    box-shadow: var(--shadow-sm);
     transform: none;
-    border-color: #d97706;
+    border-color: #f59e0b;
 }
 
 .knop-notitie .knop-icoon {
-    color: #d97706;
-    background: none;
-    filter: none;
+    color: var(--warning-text);
+    background-color: rgba(253, 224, 71, 0.3);
 }
 
 .knop-notitie h3 {
@@ -327,66 +390,69 @@ body {
 }
 
 .knop-notitie p {
-    color: #78350f;
+    color: #b45309;
 }
 
-/* Pijl voor tijdlijn op grotere schermen */
-@media (min-width: 768px) {
+/* Arrow for timeline desktop */
+@media (min-width: 900px) {
     .knoppen-container.timeline .knop:not(:last-child):not(.knop-notitie)::after {
         content: '→';
         position: absolute;
-        right: -32px;
+        right: -28px;
         top: 50%;
         transform: translateY(-50%);
-        font-size: 28px;
-        font-weight: bold;
-        color: #cbd5e1;
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--border-color);
+        z-index: 1;
     }
 }
 
-/* Custom Input Badges */
+/* --- Custom Inputs inside Cards --- */
 .knop-custom {
     cursor: default !important;
 }
 
 .knop-custom:hover {
-    transform: translateY(-4px) !important;
+    transform: translateY(-2px) !important;
 }
 
 .custom-inputs {
-    margin-top: 16px;
+    margin-top: 20px;
     padding-top: 16px;
-    border-top: 2px solid #e2e8f0;
+    border-top: 1px dashed var(--border-color);
 }
 
 .custom-input {
     width: 100%;
-    padding: 10px 14px;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 14px;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
     margin-bottom: 12px;
     box-sizing: border-box;
     transition: all 0.2s ease;
-    font-weight: 500;
+    font-family: inherit;
 }
 
 .custom-input:focus {
     outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .datetime-group {
-    margin-bottom: 14px;
+    margin-bottom: 12px;
 }
 
 .datetime-group label {
     display: block;
-    font-size: 13px;
-    font-weight: 700;
-    color: #475569;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
     margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .datetime-input {
@@ -395,44 +461,54 @@ body {
 
 .custom-go-button {
     width: 100%;
-    padding: 12px 18px;
-    background: #0f172a;
+    padding: 10px;
+    background-color: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 700;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
 }
 
 .custom-go-button:hover {
-    transform: translateY(-2px);
-    background: #1e293b;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);
+    background-color: var(--primary-hover);
+    box-shadow: var(--shadow-sm);
 }
 
 .custom-go-button:active {
-    transform: translateY(0);
-    background: #0f172a;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transform: scale(0.98);
 }
 
-/* Responsive adjustments */
+/* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
-    .titel {
-        font-size: 28px;
+    body {
+        padding: 20px 10px;
     }
-    
+
+    .titel {
+        font-size: 1.75rem;
+        margin-bottom: 24px;
+    }
+
     .tab-container {
         flex-direction: column;
+        padding: 8px;
     }
     
-    .werkbak-grid {
-        grid-template-columns: 1fr;
+    .tab-knop {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .werkbak-sectie, 
+    .sectie-details {
+        padding: 20px;
+        border-radius: var(--radius-lg);
     }
     
+    .werkbak-grid,
     .knoppen-container {
         grid-template-columns: 1fr;
     }
